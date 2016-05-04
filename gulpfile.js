@@ -166,3 +166,6 @@ gulp.task('coverage', function () {
         });
     }, 3000);
 });
+
+
+gulp.task('release', ['dist', 'bump']);
