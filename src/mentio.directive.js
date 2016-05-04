@@ -82,7 +82,7 @@ angular.module('mentio', [])
 
                     mentioUtil.replaceTriggerText($scope.context(), $scope.targetElement, $scope.targetElementPath,
                         $scope.targetElementSelectedOffset, $scope.triggerCharSet, text, $scope.requireLeadingSpace,
-                        hasTrailingSpace);
+                        hasTrailingSpace, spaceAfter);
 
                     if (!hasTrailingSpace) {
                         $scope.setTriggerText('');
