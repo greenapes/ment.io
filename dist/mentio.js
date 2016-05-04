@@ -14,6 +14,7 @@ angular.module('mentio', [])
                 altId: '=mentioId',
                 iframeElement: '=mentioIframeElement',
                 requireLeadingSpace: '=mentioRequireLeadingSpace',
+                spaceAfter: '=spaceAfter',
                 selectNotFound: '=mentioSelectNotFound',
                 trimTerm: '=mentioTrimTerm',
                 ngModel: '='
