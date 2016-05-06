@@ -568,7 +568,7 @@ angular.module('mentio', [])
                             var triggerCharSet = [];
                             triggerCharSet.push(scope.triggerChar);
                             mentioUtil.popUnderMention(scope.parentMentio.context(),
-                                triggerCharSet, element, scope.requireLeadingSpace);
+                                triggerCharSet, element, scope.requireLeadingSpace, scope.parentMentio.targetElement);
                         }
                     }
                 );
@@ -588,10 +588,12 @@ angular.module('mentio', [])
                 scope.$watch('isVisible()', function (visible) {
                     // wait for the watch notification to show the menu
                     if (visible) {
-                        var triggerCharSet = [];
-                        triggerCharSet.push(scope.triggerChar);
-                        mentioUtil.popUnderMention(scope.parentMentio.context(),
-                            triggerCharSet, element, scope.requireLeadingSpace);
+                        element.off("DOMSubtreeModified").on("DOMSubtreeModified", function(){
+                            var triggerCharSet = [];
+                            triggerCharSet.push(scope.triggerChar);
+                            mentioUtil.popUnderMention(scope.parentMentio.context(),
+                                triggerCharSet, element, scope.requireLeadingSpace, scope.parentMentio.targetElement);
+                        });
                     }
                 });
 
@@ -687,7 +689,7 @@ angular.module('mentio')
     .factory('mentioUtil', ["$window", "$location", "$anchorScroll", "$timeout", function ($window, $location, $anchorScroll, $timeout) {
 
         // public
-        function popUnderMention (ctx, triggerCharSet, selectionEl, requireLeadingSpace) {
+        function popUnderMention (ctx, triggerCharSet, selectionEl, requireLeadingSpace, textarea) {
             var coordinates;
             var mentionInfo = getTriggerInfo(ctx, triggerCharSet, requireLeadingSpace, false);
 
@@ -700,9 +702,15 @@ angular.module('mentio')
                     coordinates = getContentEditableCaretPosition(ctx, mentionInfo.mentionPosition);
                 }
 
+                if ($(textarea).offset().top + selectionEl.height() >= $(document).scrollTop() + $(window).height()){
+                    top = coordinates.top - selectionEl.height() - $(textarea).height();
+                }else{
+                    top = coordinates.top;
+                }
+
                 // Move the button into place.
                 selectionEl.css({
-                    top: coordinates.top + 'px',
+                    top: top + 'px',
                     left: coordinates.left + 'px',
                     position: 'absolute',
                     zIndex: 10000,

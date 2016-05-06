@@ -568,7 +568,7 @@ angular.module('mentio', [])
                             var triggerCharSet = [];
                             triggerCharSet.push(scope.triggerChar);
                             mentioUtil.popUnderMention(scope.parentMentio.context(),
-                                triggerCharSet, element, scope.requireLeadingSpace);
+                                triggerCharSet, element, scope.requireLeadingSpace, scope.parentMentio.targetElement);
                         }
                     }
                 );
@@ -588,10 +588,12 @@ angular.module('mentio', [])
                 scope.$watch('isVisible()', function (visible) {
                     // wait for the watch notification to show the menu
                     if (visible) {
-                        var triggerCharSet = [];
-                        triggerCharSet.push(scope.triggerChar);
-                        mentioUtil.popUnderMention(scope.parentMentio.context(),
-                            triggerCharSet, element, scope.requireLeadingSpace);
+                        element.off("DOMSubtreeModified").on("DOMSubtreeModified", function(){
+                            var triggerCharSet = [];
+                            triggerCharSet.push(scope.triggerChar);
+                            mentioUtil.popUnderMention(scope.parentMentio.context(),
+                                triggerCharSet, element, scope.requireLeadingSpace, scope.parentMentio.targetElement);
+                        });
                     }
                 });
 
