@@ -10,6 +10,8 @@ angular.module('mentio')
 
             if (mentionInfo !== undefined) {
 
+                var top;
+
                 if (selectedElementIsTextAreaOrInput(ctx)) {
                     coordinates = getTextAreaOrInputUnderlinePosition(ctx, getDocument(ctx).activeElement,
                         mentionInfo.mentionPosition);
