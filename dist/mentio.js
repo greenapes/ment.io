@@ -239,7 +239,7 @@ angular.module('mentio', [])
 
                             if (event.which === 37 || event.which === 39) {
                                 event.preventDefault();
-                             }
+                            }
                         }
                     }
                 );
@@ -583,18 +583,16 @@ angular.module('mentio', [])
                     } else {
                         scope.hideMenu();
                     }
-                });
 
-                scope.$watch('isVisible()', function (visible) {
-                    // wait for the watch notification to show the menu
-                    if (visible) {
-                        element.off("DOMSubtreeModified").on("DOMSubtreeModified", function(){
+                    setTimeout(function(){
+                        if (scope.isVisible()){
                             var triggerCharSet = [];
-                            triggerCharSet.push(scope.triggerChar);
-                            mentioUtil.popUnderMention(scope.parentMentio.context(),
-                                triggerCharSet, element, scope.requireLeadingSpace, scope.parentMentio.targetElement);
-                        });
-                    }
+                                triggerCharSet.push(scope.triggerChar);
+                                mentioUtil.popUnderMention(scope.parentMentio.context(),
+                                    triggerCharSet, element, scope.requireLeadingSpace, scope.parentMentio.targetElement);
+                        }
+                    }, 100);
+
                 });
 
                 scope.parentMentio.$on('$destroy', function () {
