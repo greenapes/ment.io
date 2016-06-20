@@ -209,7 +209,7 @@ angular.module('mentio', [])
                     'keydown keypress paste', function (event) {
                         var activeMenuScope = $scope.getActiveMenuScope();
                         if (activeMenuScope) {
-                            if (event.which === 9 || event.which === 13) {
+                            if (event.which === 9 || event.which === 13 || event.which === 32) {
                                 event.preventDefault();
                                 activeMenuScope.selectActive();
                             }
@@ -290,7 +290,7 @@ angular.module('mentio', [])
                     }
                     var activeMenuScope = scope.getActiveMenuScope();
                     if (activeMenuScope) {
-                        if (event.which === 9 || event.which === 13) {
+                        if (event.which === 9 || event.which === 13 || event.which === 32) {
                             stopEvent(event);
                             activeMenuScope.selectActive();
                             return false;
